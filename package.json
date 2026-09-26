@@ -1,0 +1,67 @@
+{
+  "name": "bytebangers",
+  "version": "1.0.0",
+  "description": "ByteBangers — 16-Bit Retro Wave Music Studio. Create authentic chiptune and 16-bit music with a beautiful synthwave interface.",
+  "main": "electron/main.js",
+  "author": "ByteBangers Team",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --win --mac --linux"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.bytebangers.studio",
+    "productName": "ByteBangers",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "css/**/*",
+      "js/**/*",
+      "assets/**/*",
+      "electron/**/*",
+      "README.md"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "assets/icon.icns",
+      "category": "public.app-category.music"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Audio"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerHeaderIcon": "assets/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ByteBangers"
+    }
+  }
+}

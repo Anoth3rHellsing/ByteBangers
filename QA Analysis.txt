@@ -1,0 +1,30 @@
+ByteBangers — QA Analysis
+Date: 2026-09-26
+Stack: Electron 44 + Web Audio API (vanilla JS/HTML/CSS)
+
+## Development Progress
+- Electron main process with proper context isolation and preload script.
+- Application menu with File (New Song, Export WAV), Transport (Play/Stop, Clear Pattern), View, and Help sections.
+- Keyboard shortcuts mapped to IPC messages for renderer communication.
+- Window management with min size constraints and deferred show for flicker-free startup.
+- Cross-platform build configuration (Windows NSIS, macOS DMG, Linux AppImage).
+- Retro wave aesthetic with dark theme (#0d0221 background).
+
+## Improvement Opportunities
+
+### High Priority
+1. **No audio engine visible**: The main process only sends IPC messages but there's no evidence of a Web Audio API implementation in the renderer. Verify that `index.html`/`js/` contains actual synthesizer, sequencer, and audio rendering code. Without it, the app is a shell.
+2. **Export WAV implementation**: The menu exposes "Export WAV" but there's no corresponding handler or offline rendering pipeline visible. Implement OfflineAudioContext-based rendering or a WASM encoder for reliable export.
+3. **State persistence**: No save/load song functionality visible in the main process. Add IPC handlers for file open/save dialogs and implement a project file format (JSON + audio samples).
+
+### Medium Priority
+4. **Preload API surface**: The preload.js exists but its exposed API isn't documented. Ensure it only exposes necessary methods via contextBridge and validate all inputs in the main process handlers.
+5. **Error handling in IPC**: Menu actions fire-and-forget via `webContents.send`. Add error feedback when operations fail (e.g., export fails due to empty pattern).
+6. **Performance profiling**: Web Audio synthesis at 16-bit accuracy can be CPU-intensive. Profile the audio worklet/script processor and consider AudioWorklet over deprecated ScriptProcessorNode.
+7. **Auto-update mechanism**: No electron-updater dependency. Add update checking for distributed releases.
+
+### Low Priority
+8. **Accessibility**: No ARIA labels or keyboard navigation hints visible. Chiptune DAWs are complex; ensure screen reader support and full keyboard operability.
+9. **Undo/Redo**: Music creation requires non-destructive editing. Implement a command history stack early.
+10. **Plugin/extensibility**: Consider exposing a simple plugin API for custom instruments or effects to grow the ecosystem.
+11. **Documentation**: No README.md in the project root (only referenced in build files). Document setup, architecture, and contribution guidelines.

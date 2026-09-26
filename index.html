@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ByteBangers — 16-bit Retro Wave DAW</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/retrowave.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="rw-reset">
+  <!-- Retro Wave Background Layers -->
+  <div class="rw-bg">
+    <div class="rw-stars" id="rw-stars-container"></div>
+    <div class="rw-sun"></div>
+    <div class="rw-horizon"></div>
+    <div class="rw-grid-floor"></div>
+  </div>
+
+  <!-- Main DAW Layout -->
+  <div class="daw-layout">
+    <!-- Top Toolbar -->
+    <header class="daw-toolbar">
+      <div class="toolbar-brand">
+        <h1 class="brand-title">BYTE<span class="accent">BANGERS</span></h1>
+      </div>
+
+      <div class="toolbar-transport">
+        <button id="rw-stop-btn" class="rw-btn rw-btn-ghost transport-btn" type="button" aria-label="Stop">&#9632;</button>
+        <button id="rw-play-btn" class="rw-btn rw-btn-primary transport-btn" type="button" aria-label="Play">&#9654;</button>
+        <button id="rw-clear-btn" class="rw-btn rw-btn-outline transport-btn" type="button" aria-label="Clear Pattern">&#10005;</button>
+      </div>
+
+      <div class="toolbar-bpm">
+        <label class="bpm-label rw-label" for="rw-bpm-slider">BPM</label>
+        <input type="range" id="rw-bpm-slider" class="rw-slider bpm-slider" min="60" max="200" value="120" step="1">
+        <input type="number" id="rw-bpm-input" class="rw-input bpm-input" value="120" min="60" max="200" step="1">
+      </div>
+
+      <div class="toolbar-actions">
+        <button id="rw-export-btn" class="rw-btn rw-btn-primary" type="button">Export WAV</button>
+        <progress id="rw-export-progress" class="rw-progress" value="0" max="100" style="display:none;"></progress>
+      </div>
+    </header>
+
+    <!-- Zone Bar -->
+    <div id="rw-zone-bar" class="zone-bar">
+      <!-- Zone buttons injected by ByteBangersApp._renderZoneBar() -->
+    </div>
+
+    <!-- Center: Sequencer Grid (rendered dynamically by app.js) -->
+    <main class="daw-sequencer">
+      <div id="rw-sequencer-grid" class="sequencer-grid-container">
+        <!-- Grid header + rows injected by ByteBangersApp._renderGrid() -->
+      </div>
+    </main>
+
+    <!-- Bottom: Mixer (rendered dynamically by app.js) -->
+    <footer class="daw-mixer">
+      <div id="rw-mixer" class="mixer-container">
+        <!-- Mixer strips injected by ByteBangersApp._renderMixer() -->
+      </div>
+    </footer>
+
+    <!-- Status Bar -->
+    <div id="rw-status-bar" class="status-bar rw-mono">
+      Stopped | Step: 1/16 | BPM: 120 | Pattern: Untitled
+    </div>
+  </div>
+
+  <!-- Application Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

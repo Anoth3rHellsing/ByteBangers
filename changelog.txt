@@ -1,0 +1,18 @@
+BYTEBANGERS - CHANGELOG
+========================
+
+[1.0.0] — 2026-09
+
+AÑADIDO:
+- Estudio de música Retro Wave 16-Bit basado en navegador.
+- Secuenciador por pasos de 8 pistas con control de instrumento, volumen, pan, mute y solo por pista.
+- Motor de síntesis integrado con Web Audio API: ondas cuadrada, diente de sierra, triangular, senoidal y ruido con envolventes ADSR, filtros resonantes y bit-crushing para timbre auténtico de 16 bits.
+- Exportación WAV: renderizado offline del patrón actual a PCM WAV normalizado 16-bit / 44.1 kHz con descarga directa desde el navegador.
+- Interfaz Retro Wave UI con estética neón sobre fondo oscuro (basada en Retro Wave UI Kit).
+- Sin dependencias externas ni frameworks: Vanilla JavaScript (ES modules), HTML5 + CSS3.
+- Funciona abriendo index.html en cualquier navegador moderno sin paso de compilación ni servidor.
+
+CRÉDITOS:
+- nicol — Creador del proyecto, diseño y desarrollo.
+- Claude (Anthropic) — Desarrollo asistido por IA y generación de código.
+- Google Fonts — Monoton, Orbitron, Rajdhani, VT323 (SIL Open Font License).

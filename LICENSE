@@ -1,0 +1,45 @@
+ByteBangers — 16-Bit Retro Wave Music Studio
+Copyright (c) 2026 nicol & Claude (Anthropic)
+
+All rights reserved, subject to the following permissions:
+
+═══════════════════════════════════════════════════════════════
+  TERMS AND CONDITIONS
+═══════════════════════════════════════════════════════════════
+
+1. GRANT OF RIGHTS
+   You are free to use, copy, modify, distribute, remix, and build
+   upon this software for any purpose — personal, commercial, or
+   otherwise — without restriction.
+
+2. ATTRIBUTION (REQUIRED)
+   Any use, redistribution, or derivative work MUST include visible
+   credit to the original authors:
+
+     "ByteBangers — Created by nicol & Claude (Anthropic)"
+
+   This attribution must appear in at least one of the following:
+   - The application's About / Credits screen
+   - The project's README or documentation
+   - Any public distribution or deployment notice
+
+3. NO WARRANTY
+   This software is provided "as is", without warranty of any kind,
+   express or implied, including but not limited to the warranties
+   of merchantability, fitness for a particular purpose, and
+   noninfringement. In no event shall the authors be liable for any
+   claim, damages, or other liability arising from the use of this
+   software.
+
+4. ORIGINAL AUTHORS
+   - nicol — Project creator, design, and development
+   - Claude (Anthropic) — AI-assisted development and code generation
+
+5. THIRD-PARTY COMPONENTS
+   This project uses Google Fonts (Monoton, Orbitron, Rajdhani, VT323)
+   under their respective open-source licenses (SIL Open Font License).
+   The Web Audio API is a W3C standard implemented natively by browsers.
+
+═══════════════════════════════════════════════════════════════
+  Do whatever you want with it — just give us credit. 🎵
+═══════════════════════════════════════════════════════════════
