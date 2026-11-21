@@ -54,8 +54,13 @@ function createWindow() {
       label: 'Transport',
       submenu: [
         {
-          label: 'Play / Stop',
-          accelerator: 'Space',
+          // Space is handled by the page (_onKeyDown in js/app.js), which
+          // ignores it while typing in a field. A registered accelerator
+          // would catch every Space before the page and swallow it in inputs,
+          // so it is only shown, not registered (macOS can't do that: there
+          // the hint goes in the label).
+          label: process.platform === 'darwin' ? 'Play / Stop (Space)' : 'Play / Stop',
+          ...(process.platform === 'darwin' ? {} : { accelerator: 'Space', registerAccelerator: false }),
           click: () => {
             mainWindow.webContents.send('menu-action', 'toggle-play');
           },
