@@ -59,20 +59,52 @@ class ByteBangersApp {
     this._renderZoneBar();
     this._bindTransport();
     this._bindKeyboard();
+    this._bindMenu();
     this._loadFromStorage();
     this._updateStatus();
 
     // CRITICAL FIX: AudioContext must be created AND resumed inside a user gesture.
-    const initAudio = async () => {
-      if (!this.audio.ctx) {
-        await this.audio.init();
-      }
-      if (this.audio.ctx && this.audio.ctx.state === 'suspended') {
-        await this.audio.ctx.resume();
-      }
-    };
+    const initAudio = () => this._ensureAudio();
     document.addEventListener('pointerdown', initAudio);
     document.addEventListener('keydown', initAudio);
+  }
+
+  async _ensureAudio() {
+    if (!this.audio.ctx) {
+      await this.audio.init();
+    }
+    if (this.audio.ctx && this.audio.ctx.state === 'suspended') {
+      await this.audio.ctx.resume();
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  DESKTOP MENU (Electron)                                            */
+  /* ------------------------------------------------------------------ */
+
+  /**
+   * electron/main.js sends 'menu-action' over IPC for File and Transport
+   * items; preload.js exposes it as window.electronAPI.onMenuAction.
+   * In a plain browser there is no electronAPI and this does nothing.
+   */
+  _bindMenu() {
+    const api = window.electronAPI;
+    if (!api || typeof api.onMenuAction !== 'function') return;
+    const actions = {
+      'new-song': () => this.newSong(),
+      'export-wav': () => this._exportWAV(),
+      // A menu click is not a page gesture, so make sure audio exists first
+      'toggle-play': () => this._ensureAudio().then(() => this.togglePlay()),
+      stop: () => this.stop(),
+      clear: () => this.clearPattern(),
+    };
+    api.onMenuAction((action) => {
+      const run = actions[action];
+      if (!run) return;
+      Promise.resolve()
+        .then(run)
+        .catch((err) => console.error(`[ByteBangers] Menu action "${action}" failed:`, err));
+    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -495,6 +527,27 @@ class ByteBangersApp {
     this._autoSave();
   }
 
+  /**
+   * Discard the whole song (every zone) and start from one empty zone with
+   * the default tracks and BPM.
+   */
+  newSong() {
+    if (!window.confirm('Start a new song? All zones of the current song will be discarded.')) {
+      return false;
+    }
+    if (this.isPlaying) this.stop();
+    this.zones = [new Sequencer(16, 8).getPattern()];
+    this.activeZone = 0;
+    this.songName = 'Untitled';
+    this.setBPM(DEFAULT_BPM);
+    this._loadZone(0);
+    this._renderZoneButtons();
+    this._autoSave();
+    this._updateStatus();
+    this._flashStatus('New song');
+    return true;
+  }
+
   clearPattern() {
     this.sequencer.clearAll();
     this._updateGridFromPattern();
@@ -767,7 +820,8 @@ class ByteBangersApp {
   /* ------------------------------------------------------------------ */
 
   async _exportWAV() {
-    if (!this.exportBtn) return;
+    // Disabled while a render is running (the menu item can fire meanwhile)
+    if (!this.exportBtn || this.exportBtn.disabled) return;
 
     this.exportBtn.disabled = true;
     this.exportBtn.textContent = 'Rendering...';
