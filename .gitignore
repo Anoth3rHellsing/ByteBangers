@@ -3,4 +3,5 @@ Executables/
 *.exe
 *.log
 .DS_Store
-Thumbs.dbdist/
+Thumbs.db
+dist/
